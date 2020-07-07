@@ -17,8 +17,8 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_library, container, false)
+        val btn_add = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton) as com.google.android.material.floatingactionbutton.FloatingActionButton
 
-        var btn_add = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton) as com.google.android.material.floatingactionbutton.FloatingActionButton
         btn_add.setOnClickListener{
             activity?.let{
                 val intent = Intent (it, Ocr::class.java)
