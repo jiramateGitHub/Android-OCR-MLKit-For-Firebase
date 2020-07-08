@@ -134,24 +134,40 @@ class ImageProcess : AppCompatActivity() {
             editText.append(blockText + "\n")
         }
 
-        ////////////////////////////////////////////////////////////////////////////////
-        val mRootRef = FirebaseDatabase.getInstance().getReference()
-        val mMessagesRef = mRootRef.child("Images")
-        obj_ocr_images = Ocr_images(
-            path_image,
-            "Title",
-            editText.text.toString()
-        )
-        mMessagesRef.push().setValue(obj_ocr_images)
+
         ////////////////////////////////////////////////////////////////////////////////
 
-
-
-        var file = Uri.fromFile(File(obj_ocr_images.imagePath))
+        var file = Uri.fromFile(File(path_image))
         val ref = storageReference?.child("images/${file.lastPathSegment}")
         val uploadTask = ref?.putFile(file)
+        val urlTask = uploadTask?.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            ref.downloadUrl
+        }?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+
+                val mRootRef = FirebaseDatabase.getInstance().getReference()
+                val mMessagesRef = mRootRef.child("Images")
+                obj_ocr_images = Ocr_images(
+                    downloadUri.toString(),
+                    "Title",
+                    editText.text.toString()
+                )
+                mMessagesRef.push().setValue(obj_ocr_images)
 
 
+                Toast.makeText(this, downloadUri.toString(), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Handle failures", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////
 
     }
 

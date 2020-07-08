@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
 
-        val load_fragment = LibraryFragment().newInstance("")
+        val load_fragment = LibraryFragment()
         transaction.replace(R.id.contentContainer, load_fragment, "LibraryFragment")
         transaction.addToBackStack("LibraryFragment")
         transaction.commit()

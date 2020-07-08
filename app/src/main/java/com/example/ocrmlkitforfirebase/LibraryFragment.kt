@@ -10,9 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ocrmlkitforfirebase.Ocr.GalleryActivity
 import com.example.ocrmlkitforfirebase.Ocr.ImageProcess
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -31,10 +29,48 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_library, container, false)
+        val btn_add = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_add) as com.google.android.material.floatingactionbutton.FloatingActionButton
+        val btn_camera= view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_camera) as com.google.android.material.floatingactionbutton.FloatingActionButton
+        val btn_gallery = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_gallery) as com.google.android.material.floatingactionbutton.FloatingActionButton
 
-        val btn_add = view.findViewById<FloatingActionButton>(R.id.fab_add) as FloatingActionButton
-        val btn_camera= view.findViewById<FloatingActionButton>(R.id.fab_camera) as FloatingActionButton
-        val btn_gallery = view.findViewById<FloatingActionButton>(R.id.fab_gallery) as FloatingActionButton
+        val mRootRef = FirebaseDatabase.getInstance().reference
+        val mMessagesRef = mRootRef.child("Images")
+
+        mMessagesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                val list = JSONArray()
+                recyclerView = view.findViewById(R.id.recyLayout)
+
+                val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity!!.baseContext)
+                recyclerView.layoutManager = layoutManager
+
+                for (ds in dataSnapshot.children) {
+
+                    val jObject = JSONObject()
+
+                    val imagePath = ds.child("imagePath").getValue(String::class.java)!!
+                    val imageText = ds.child("imageText").getValue(String::class.java)!!
+                    val imageTitle = ds.child("imageTitle").getValue(String::class.java)!!
+
+                    jObject.put("key", ds.key)
+                    jObject.put("imagePath", imagePath)
+                    jObject.put("imageText", imageText)
+                    jObject.put("imageTitle", imageTitle)
+
+                    list.put(jObject)
+                }
+
+                val adapter = LibraryAdapter(activity!!, list)
+
+                recyclerView.adapter = adapter
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
 
         val fabOpen = AnimationUtils.loadAnimation(activity!!.baseContext,R.anim.fab_open)
         val fabClose = AnimationUtils.loadAnimation(activity!!.baseContext,R.anim.fab_close)
@@ -56,13 +92,9 @@ class LibraryFragment : Fragment() {
         }
 
         btn_camera.setOnClickListener {
-//            activity?.let {
-//                val intent = Intent(it, ImageProcess::class.java)
-//                intent.putExtra("typeProcess","camera")
-//                it.startActivity(intent)
-//            }
             activity?.let {
-                val intent = Intent(it, GalleryActivity::class.java)
+                val intent = Intent(it, ImageProcess::class.java)
+                intent.putExtra("typeProcess","camera")
                 it.startActivity(intent)
             }
         }
@@ -76,22 +108,6 @@ class LibraryFragment : Fragment() {
         }
 
         return view
-    }
-
-    fun newInstance(username:String): LibraryFragment {
-        val fragment = LibraryFragment()
-        val bundle = Bundle()
-        bundle.putString("username", username)
-        fragment.setArguments(bundle)
-        return fragment
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val bundle = arguments
-        if (bundle != null) {
-//            account_username = bundle.getString("username").toString()
-        }
     }
 
 

@@ -8,8 +8,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.ocrmlkitforfirebase.Ocr.ImageDetailFragment
 import org.json.JSONArray
 
 class LibraryAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONArray) : RecyclerView.Adapter<LibraryAdapter.Holder>() {
@@ -41,22 +43,24 @@ class LibraryAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONAr
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
         holder.Holder()
-        holder.tv_title.setText(dataSource.getJSONObject(position).getString("position_work_name").toString() )
+        holder.tv_title.setText(dataSource.getJSONObject(position).getString("imageTitle").toString() )
         Glide.with(thiscontext)
-            .load(dataSource.getJSONObject(position).getString("image").toString())
+            .load(dataSource.getJSONObject(position).getString("imagePath").toString())
             .into(holder.iv_image)
 
         holder.layout.setOnClickListener {
             var key = dataSource.getJSONObject(position).getString("key").toString()
-            var tv_title  = dataSource.getJSONObject(position).getString("tv_title").toString()
-            var iv_image = dataSource.getJSONObject(position).getString("iv_image").toString()
+            var imageTitle  = dataSource.getJSONObject(position).getString("imageTitle").toString()
+            var imagePath = dataSource.getJSONObject(position).getString("imagePath").toString()
+            var imageText = dataSource.getJSONObject(position).getString("imageText").toString()
 
-//            val fm = thisActivity.supportFragmentManager
-//            val transaction: FragmentTransaction = fm!!.beginTransaction()
-//            val load_fragment = WorkExperienceInputFragment().newInstance(key, username, position_work_name, position_manage_name, position_level, manage_name, place, start_date, end_date, text_th) as WorkExperienceInputFragment
-//            transaction.replace(R.id.contentContainer, load_fragment,"WorkExperienceInputFragment")
-//            transaction.addToBackStack("WorkExperienceInputFragment")
-//            transaction.commit()
+            val fm = thisActivity.supportFragmentManager
+            val transaction: FragmentTransaction = fm!!.beginTransaction()
+
+            val load_fragment = ImageDetailFragment().newInstance(imagePath, imageTitle, imageText) as ImageDetailFragment
+            transaction.replace(R.id.contentContainer, load_fragment,"ImageDetailFragment")
+            transaction.addToBackStack("ImageDetailFragment")
+            transaction.commit()
 
         }
 
