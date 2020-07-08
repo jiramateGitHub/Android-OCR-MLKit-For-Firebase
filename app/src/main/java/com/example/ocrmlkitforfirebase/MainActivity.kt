@@ -28,7 +28,6 @@ import java.net.URL
 import java.util.*
 import kotlin.concurrent.schedule
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,12 +38,10 @@ class MainActivity : AppCompatActivity() {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
 
-        val load_fragment = LibraryFragment()
+        val load_fragment = LibraryFragment().newInstance("")
         transaction.replace(R.id.contentContainer, load_fragment, "LibraryFragment")
         transaction.addToBackStack("LibraryFragment")
         transaction.commit()
-
-
     }
 
     override fun onBackPressed() {

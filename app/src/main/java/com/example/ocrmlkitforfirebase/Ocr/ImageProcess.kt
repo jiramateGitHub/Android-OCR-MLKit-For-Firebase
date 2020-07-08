@@ -1,4 +1,4 @@
-package com.example.ocrmlkitforfirebase
+package com.example.ocrmlkitforfirebase.Ocr
 
 import android.app.Activity
 import android.content.Intent
@@ -6,53 +6,51 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
+import com.example.ocrmlkitforfirebase.LibraryFragment
+import com.example.ocrmlkitforfirebase.R
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_ocr.*
+import kotlinx.android.synthetic.main.activity_image_process.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
 
-class Ocr : AppCompatActivity() {
+class ImageProcess : AppCompatActivity() {
+
     lateinit var imageView: ImageView
     lateinit var editText: EditText
     lateinit var btnTxtRecognize: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ocr)
-        ActivityCompat.requestPermissions(this, Constants.INITIAL_PERMS, Constants.INITIAL_REQUEST)
+        setContentView(R.layout.activity_image_process)
+
+        val typeProcess = intent.getStringExtra("typeProcess")
+
         imageView = findViewById(R.id.imageView)
         editText = findViewById(R.id.editText)
         btnTxtRecognize = findViewById(R.id.btnTxtRecognize)
+
+        if(typeProcess == "camera"){
+            EasyImage.openCameraForImage(this, 0)
+        }else if(typeProcess == "gallery"){
+            EasyImage.openGallery(this, 0)
+        }
 
         btnTxtRecognize.setOnClickListener {
             startRecognizing()
         }
 
-        btnGallery.setOnClickListener {
-            EasyImage.openGallery(this, 0)
-        }
-
-        btnTakePhoto.setOnClickListener {
-            EasyImage.openCameraForImage(this, 0)
-        }
-    }
-
-    private fun loadImage(imageFile : String?) {
-        Glide.with(this)
-            .load(imageFile)
-            .into(imageView)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -60,15 +58,22 @@ class Ocr : AppCompatActivity() {
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
             override fun onImagesPicked(imageFiles: MutableList<File>, source: EasyImage.ImageSource?, type: Int) {
-                CropImage.activity(Uri.fromFile(imageFiles[0])).start(this@Ocr)
+                CropImage.activity(Uri.fromFile(imageFiles[0])).start(this@ImageProcess)
             }
         })
+
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val result = CropImage.getActivityResult(data)
                 loadImage(result.uri.path)
             }
         }
+    }
+
+    private fun loadImage(imageFile : String?) {
+        Glide.with(this)
+            .load(imageFile)
+            .into(imageView)
     }
 
     private fun startRecognizing() {
@@ -86,12 +91,8 @@ class Ocr : AppCompatActivity() {
                 .addOnFailureListener {
                     editText.setText("Failed")
                 }
-        } else {
-            Toast.makeText(this, "Select an Image First", Toast.LENGTH_LONG).show()
         }
-
     }
-
 
     private fun processResultText(resultText: FirebaseVisionText) {
         progressBar.visibility = View.GONE
@@ -103,5 +104,8 @@ class Ocr : AppCompatActivity() {
             val blockText = block.text
             editText.append(blockText + "\n")
         }
+
+
     }
+
 }

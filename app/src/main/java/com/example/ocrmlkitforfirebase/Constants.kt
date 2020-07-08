@@ -8,6 +8,5 @@ object Constants {
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.CAMERA
     )
-
     const val INITIAL_REQUEST = 110
 }
