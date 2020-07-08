@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ocrmlkitforfirebase.Ocr.GalleryActivity
 import com.example.ocrmlkitforfirebase.Ocr.ImageProcess
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
@@ -55,9 +56,13 @@ class LibraryFragment : Fragment() {
         }
 
         btn_camera.setOnClickListener {
+//            activity?.let {
+//                val intent = Intent(it, ImageProcess::class.java)
+//                intent.putExtra("typeProcess","camera")
+//                it.startActivity(intent)
+//            }
             activity?.let {
-                val intent = Intent(it, ImageProcess::class.java)
-                intent.putExtra("typeProcess","camera")
+                val intent = Intent(it, GalleryActivity::class.java)
                 it.startActivity(intent)
             }
         }

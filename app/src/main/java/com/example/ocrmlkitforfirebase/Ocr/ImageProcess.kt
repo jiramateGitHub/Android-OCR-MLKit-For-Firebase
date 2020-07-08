@@ -11,31 +11,56 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.example.ocrmlkitforfirebase.LibraryFragment
 import com.example.ocrmlkitforfirebase.R
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_image_process.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
+import java.util.*
 
 class ImageProcess : AppCompatActivity() {
 
-    lateinit var imageView: ImageView
-    lateinit var editText: EditText
-    lateinit var btnTxtRecognize: Button
+    private lateinit var imageView: ImageView
+    private lateinit var editText: EditText
+    private lateinit var btnTxtRecognize: Button
+
+    data class Ocr_images (
+        var imagePath : String? = "",
+        var imageTitle : String? = "",
+        var imageText : String? = ""
+    )
+
+    private lateinit var obj_ocr_images : Ocr_images
+    private var path_image = ""
+
+    private var firebaseStore: FirebaseStorage? = null
+    private var storageReference: StorageReference? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_process)
 
         val typeProcess = intent.getStringExtra("typeProcess")
+
+
 
         imageView = findViewById(R.id.imageView)
         editText = findViewById(R.id.editText)
@@ -46,6 +71,9 @@ class ImageProcess : AppCompatActivity() {
         }else if(typeProcess == "gallery"){
             EasyImage.openGallery(this, 0)
         }
+
+        firebaseStore = FirebaseStorage.getInstance()
+        storageReference = FirebaseStorage.getInstance().reference
 
         btnTxtRecognize.setOnClickListener {
             startRecognizing()
@@ -71,6 +99,7 @@ class ImageProcess : AppCompatActivity() {
     }
 
     private fun loadImage(imageFile : String?) {
+        path_image = imageFile!!
         Glide.with(this)
             .load(imageFile)
             .into(imageView)
@@ -104,6 +133,24 @@ class ImageProcess : AppCompatActivity() {
             val blockText = block.text
             editText.append(blockText + "\n")
         }
+
+        ////////////////////////////////////////////////////////////////////////////////
+        val mRootRef = FirebaseDatabase.getInstance().getReference()
+        val mMessagesRef = mRootRef.child("Images")
+        obj_ocr_images = Ocr_images(
+            path_image,
+            "Title",
+            editText.text.toString()
+        )
+        mMessagesRef.push().setValue(obj_ocr_images)
+        ////////////////////////////////////////////////////////////////////////////////
+
+
+
+        var file = Uri.fromFile(File(obj_ocr_images.imagePath))
+        val ref = storageReference?.child("images/${file.lastPathSegment}")
+        val uploadTask = ref?.putFile(file)
+
 
 
     }
