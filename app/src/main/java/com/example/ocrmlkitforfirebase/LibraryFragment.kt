@@ -35,6 +35,10 @@ class LibraryFragment : Fragment() {
         val btn_gallery = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_gallery) as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btn_qrcode = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_scan_qrcode) as com.google.android.material.floatingactionbutton.FloatingActionButton
 
+        var action = (activity as MainActivity).supportActionBar
+        action!!.title = "Library Images"
+
+        //CONNECT FIREBASE
         val mRootRef = FirebaseDatabase.getInstance().reference
         val mMessagesRef = mRootRef.child("Images")
 
@@ -74,6 +78,7 @@ class LibraryFragment : Fragment() {
             }
         })
 
+        // ANIMATION FAB BUTTON
         val fabOpen = AnimationUtils.loadAnimation(activity!!.baseContext,R.anim.fab_open)
         val fabClose = AnimationUtils.loadAnimation(activity!!.baseContext,R.anim.fab_close)
         val fabClockwise = AnimationUtils.loadAnimation(activity!!.baseContext,R.anim.rotate_clockwise)
@@ -114,7 +119,6 @@ class LibraryFragment : Fragment() {
         btn_qrcode.setOnClickListener {
             activity?.let {
                 val intent = Intent(it, CameraScan::class.java)
-//                intent.putExtra("typeProcess","gallery")
                 it.startActivity(intent)
             }
         }

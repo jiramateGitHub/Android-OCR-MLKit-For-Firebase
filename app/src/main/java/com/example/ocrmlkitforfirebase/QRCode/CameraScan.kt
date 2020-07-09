@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.ocrmlkitforfirebase.MainActivity
 import com.google.zxing.Result
 import com.example.ocrmlkitforfirebase.R
 import kotlinx.android.synthetic.main.activity_camera_scan.*
@@ -20,8 +21,13 @@ class CameraScan : AppCompatActivity() , ZXingScannerView.ResultHandler, View.On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_scan)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        var action = supportActionBar
+        action!!.title = "Scan QR Code"
+
         initScannerView()
         initDefaultView()
         button_reset.setOnClickListener(this)

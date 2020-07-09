@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
 import com.example.ocrmlkitforfirebase.LibraryFragment
+import com.example.ocrmlkitforfirebase.MainActivity
 import com.example.ocrmlkitforfirebase.R
 
 class ImageDetailFragment : Fragment() {
@@ -38,6 +39,9 @@ class ImageDetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_image_detail, container, false)
+
+        var action = (activity as MainActivity).supportActionBar
+        action!!.title = "Image Detail"
 
         imageView = view.findViewById(R.id.imageView)
         editText = view.findViewById(R.id.editText)

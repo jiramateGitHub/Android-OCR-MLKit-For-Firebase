@@ -19,6 +19,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.example.ocrmlkitforfirebase.LibraryFragment
+import com.example.ocrmlkitforfirebase.MainActivity
 import com.example.ocrmlkitforfirebase.R
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
@@ -61,8 +62,12 @@ class ImageProcess : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_process)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        var action = supportActionBar
+        action!!.title = "Image Scan"
 
         firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference

@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".QRCode.CameraScan"></activity>
+        <activity android:name=".CustomersActivity"></activity>
+        <activity android:name=".MySQLDatabase" />
+        <activity android:name=".QRCode.CameraScan" />
         <activity android:name=".Ocr.GalleryActivity" />
         <activity android:name=".Ocr.ImageProcess" />
         <activity android:name=".Ocr" />
