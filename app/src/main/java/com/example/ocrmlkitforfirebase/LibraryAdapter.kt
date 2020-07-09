@@ -41,7 +41,6 @@ class LibraryAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONAr
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-
         holder.Holder()
         holder.tv_title.setText(dataSource.getJSONObject(position).getString("imageTitle").toString() )
         Glide.with(thiscontext)
@@ -61,7 +60,6 @@ class LibraryAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONAr
             transaction.replace(R.id.contentContainer, load_fragment,"ImageDetailFragment")
             transaction.addToBackStack("ImageDetailFragment")
             transaction.commit()
-
         }
 
     }

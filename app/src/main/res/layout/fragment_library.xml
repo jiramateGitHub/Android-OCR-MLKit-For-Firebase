@@ -47,6 +47,20 @@
         app:layout_constraintEnd_toEndOf="@+id/fab_camera"
         app:layout_constraintStart_toStartOf="@+id/fab_camera" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_scan_qrcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:clickable="true"
+        android:src="@drawable/ic_qr_code"
+        android:visibility="invisible"
+        app:backgroundTint="#FFFFFF"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/fab_gallery"
+        app:layout_constraintEnd_toEndOf="@+id/fab_gallery"
+        app:layout_constraintStart_toStartOf="@+id/fab_gallery" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyLayout"

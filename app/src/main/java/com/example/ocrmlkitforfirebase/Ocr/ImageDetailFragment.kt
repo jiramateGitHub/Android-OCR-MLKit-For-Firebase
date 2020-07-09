@@ -1,12 +1,19 @@
 package com.example.ocrmlkitforfirebase.Ocr
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
 import com.example.ocrmlkitforfirebase.LibraryFragment
 import com.example.ocrmlkitforfirebase.R
@@ -16,6 +23,8 @@ class ImageDetailFragment : Fragment() {
     private lateinit var obj_ocr_images: Ocr_images
     private lateinit var imageView: ImageView
     private lateinit var editText: EditText
+    private lateinit var editTitle: EditText
+    private lateinit var btnTxtCopy: Button
 
     data class Ocr_images(
         var imagePath: String? = "",
@@ -32,12 +41,23 @@ class ImageDetailFragment : Fragment() {
 
         imageView = view.findViewById(R.id.imageView)
         editText = view.findViewById(R.id.editText)
+        editTitle = view.findViewById(R.id.editTitle)
+        btnTxtCopy = view.findViewById(R.id.btnTxtCopy)
 
         Glide.with(activity!!.baseContext)
             .load(obj_ocr_images.imagePath)
             .into(imageView)
 
         editText.setText(obj_ocr_images.imageText)
+        editTitle.setText(obj_ocr_images.imageTitle)
+
+        btnTxtCopy.setOnClickListener {
+            val textToCopy = editText.text
+            val clipboardManager  : ClipboardManager = activity!!.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("text", textToCopy)
+            clipboardManager.setPrimaryClip(clipData)
+            Toast.makeText(activity!!, "Text copied to clipboard", Toast.LENGTH_LONG).show()
+        }
 
         return view
     }

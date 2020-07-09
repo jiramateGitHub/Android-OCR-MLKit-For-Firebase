@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ocrmlkitforfirebase.Ocr.ImageProcess
+import com.example.ocrmlkitforfirebase.QRCode.CameraScan
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -32,6 +33,7 @@ class LibraryFragment : Fragment() {
         val btn_add = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_add) as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btn_camera= view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_camera) as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btn_gallery = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_gallery) as com.google.android.material.floatingactionbutton.FloatingActionButton
+        val btn_qrcode = view.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_scan_qrcode) as com.google.android.material.floatingactionbutton.FloatingActionButton
 
         val mRootRef = FirebaseDatabase.getInstance().reference
         val mMessagesRef = mRootRef.child("Images")
@@ -81,11 +83,13 @@ class LibraryFragment : Fragment() {
             if(isOpen){
                 fab_camera.startAnimation(fabClose)
                 fab_gallery.startAnimation(fabClose)
+                btn_qrcode.startAnimation(fabClose)
                 btn_add.startAnimation(fabClockwise)
                 isOpen = false
             }else{
                 fab_camera.startAnimation(fabOpen)
                 fab_gallery.startAnimation(fabOpen)
+                btn_qrcode.startAnimation(fabOpen)
                 btn_add.startAnimation(fabAntiClockwise)
                 isOpen = true
             }
@@ -103,6 +107,14 @@ class LibraryFragment : Fragment() {
             activity?.let {
                 val intent = Intent(it, ImageProcess::class.java)
                 intent.putExtra("typeProcess","gallery")
+                it.startActivity(intent)
+            }
+        }
+
+        btn_qrcode.setOnClickListener {
+            activity?.let {
+                val intent = Intent(it, CameraScan::class.java)
+//                intent.putExtra("typeProcess","gallery")
                 it.startActivity(intent)
             }
         }
