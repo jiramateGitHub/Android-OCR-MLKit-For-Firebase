@@ -48,7 +48,7 @@ class TBM_ImagesOcr_Helper {
                         while (cursor!!.next()) {
                             try {
                                 when (functionType) {
-                                    "getImagesQrCode" -> records?.add(
+                                    "getImagesOcr" -> records?.add(
                                         TBM_ImagesOcr(
                                             cursor!!.getString("Title"),
                                             cursor!!.getString("Text"),
@@ -97,7 +97,7 @@ class TBM_ImagesOcr_Helper {
         Log.d("LogQuery", query)
         records = ArrayList<TBM_ImagesOcr>() as ArrayList<Any>
         adapter = HistoryOcrAdapter(records as ArrayList<TBM_ImagesOcr>)
-        functionType = "getImagesQrCode"
+        functionType = "getImagesOcr"
         SyncData().execute("")
     }
 

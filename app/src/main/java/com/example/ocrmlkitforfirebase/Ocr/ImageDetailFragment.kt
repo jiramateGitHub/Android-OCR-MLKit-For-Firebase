@@ -37,8 +37,7 @@ class ImageDetailFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_image_detail, container, false)
 
-        var action = (activity as MainActivity).supportActionBar
-        action!!.title = "Image Detail"
+        (activity as MainActivity).supportActionBar!!.title = "Image Detail"
 
         imageView = view.findViewById(R.id.imageView)
         editText = view.findViewById(R.id.editText)

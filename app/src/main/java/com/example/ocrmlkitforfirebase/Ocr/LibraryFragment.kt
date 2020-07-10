@@ -36,8 +36,7 @@ class LibraryFragment : Fragment() {
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_library, container, false)
 
-        var action = (activity as MainActivity).supportActionBar
-        action!!.title = "Library Images"
+        (activity as MainActivity).supportActionBar!!.title = "Library Images"
 
         recyclerView = view.findViewById(R.id.recyLayout)
 

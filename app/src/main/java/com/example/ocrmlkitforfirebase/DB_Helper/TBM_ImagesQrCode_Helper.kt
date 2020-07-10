@@ -93,7 +93,7 @@ class TBM_ImagesQrCode_Helper {
 
     fun getImagesQrCode(rv: RecyclerView) {
         this.rv = rv
-        query = "SELECT * FROM TBM_ImagesQrCode ORDER BY Date DESC"
+        query = "SELECT * FROM TBM_ImagesQrCode WHERE IsActive = 1 ORDER BY Date DESC"
         Log.d("LogQuery", query)
         records = ArrayList<TBM_ImagesQrCode>() as ArrayList<Any>
         adapter = HistoryScanAdapter(records as ArrayList<TBM_ImagesQrCode>)

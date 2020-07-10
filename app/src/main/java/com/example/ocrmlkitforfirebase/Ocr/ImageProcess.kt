@@ -55,9 +55,7 @@ class ImageProcess : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        var action = supportActionBar
-        action!!.title = "Image Scan"
+        supportActionBar?.title = "Image Scan"
 
         firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
