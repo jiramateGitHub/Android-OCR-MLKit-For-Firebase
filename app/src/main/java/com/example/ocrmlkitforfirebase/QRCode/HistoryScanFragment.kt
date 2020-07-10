@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ocrmlkitforfirebase.DB_Helper.TBT_HistoryScan_Helper
 import com.example.ocrmlkitforfirebase.DB_MSSQL.ConnectionClass
 import com.example.ocrmlkitforfirebase.MainActivity
 import com.example.ocrmlkitforfirebase.R
 
-class CheckInFragment : Fragment() {
+class HistoryScanFragment : Fragment() {
     private lateinit var btn_qrcode: Button
     lateinit var rv : RecyclerView
 
@@ -23,16 +22,16 @@ class CheckInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view : View = inflater.inflate(R.layout.fragment_check_in, container, false)
+        var view : View = inflater.inflate(R.layout.fragment_history_scan, container, false)
 
         (activity as MainActivity).supportActionBar!!.title = "Scan QR Code"
 
         rv = view.findViewById(R.id.recyLayout)
         rv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        ConnectionClass.thsh.connectionClass = ConnectionClass()
-        ConnectionClass.thsh.ctx = requireContext()
-        ConnectionClass.thsh.getHistoryScan(rv)
+        ConnectionClass.db_img_qr.connectionClass = ConnectionClass()
+        ConnectionClass.db_img_qr.ctx = requireContext()
+        ConnectionClass.db_img_qr.getImagesQrCode(rv)
 
         btn_qrcode = view.findViewById(R.id.btn_qrcode)
 

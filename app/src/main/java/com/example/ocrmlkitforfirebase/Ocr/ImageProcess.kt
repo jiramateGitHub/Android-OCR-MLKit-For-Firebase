@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.ocrmlkitforfirebase.DB_MSSQL.ConnectionClass
 import com.example.ocrmlkitforfirebase.R
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ml.vision.FirebaseVision
@@ -146,6 +147,8 @@ class ImageProcess : AppCompatActivity() {
             val blockText = block.text
             editText.append(blockText + "\n")
         }
+        ConnectionClass.db_img_ocr.ctx = this
+        ConnectionClass.db_img_ocr.insertImagesOcr(editTitle?.text.toString(), editText?.text.toString())
         uploadImageDB()
     }
 

@@ -2,7 +2,8 @@ package com.example.ocrmlkitforfirebase.DB_MSSQL
 
 import android.os.StrictMode
 import android.util.Log
-import com.example.ocrmlkitforfirebase.DB_Helper.TBT_HistoryScan_Helper
+import com.example.ocrmlkitforfirebase.DB_Helper.TBM_ImagesOcr_Helper
+import com.example.ocrmlkitforfirebase.DB_Helper.TBM_ImagesQrCode_Helper
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -14,7 +15,8 @@ class ConnectionClass {
     private val password = "123456"
 
     companion object{
-        var thsh = TBT_HistoryScan_Helper()
+        var db_img_qr = TBM_ImagesQrCode_Helper()
+        var db_img_ocr = TBM_ImagesOcr_Helper()
     }
 
     fun dbCon() : Connection? {

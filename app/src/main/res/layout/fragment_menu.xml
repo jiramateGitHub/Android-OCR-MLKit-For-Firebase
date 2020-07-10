@@ -15,7 +15,20 @@
     android:textSize="20sp"
     android:textColor="#ffffff"
     android:gravity="center"
-    android:text="Text Recognition"/>
+    android:text="Text Recognition With MSSQL"/>
+
+<Button
+    android:id="@+id/btnTxtRc2"
+    android:layout_below="@id/btnTxtRc"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#06597b"
+    android:padding="32dp"
+    android:layout_marginBottom="30dp"
+    android:textSize="20sp"
+    android:textColor="#ffffff"
+    android:gravity="center"
+    android:text="Text Recognition With Firebase"/>
 
 <Button
     android:layout_width="match_parent"
@@ -23,7 +36,7 @@
     android:background="#5677fc"
     android:padding="32dp"
     android:id="@+id/btnSQRc"
-    android:layout_below="@id/btnTxtRc"
+    android:layout_below="@id/btnTxtRc2"
     android:textSize="20sp"
     android:textColor="#ffffff"
     android:gravity="center"

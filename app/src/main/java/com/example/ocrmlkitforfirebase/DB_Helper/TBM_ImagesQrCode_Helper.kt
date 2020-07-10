@@ -6,14 +6,13 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ocrmlkitforfirebase.DB_MSSQL.ConnectionClass
-import com.example.ocrmlkitforfirebase.DB_MSSQL.TBM_Location
-import com.example.ocrmlkitforfirebase.DB_MSSQL.TBT_HistoryScan
+import com.example.ocrmlkitforfirebase.DB_MSSQL.TBM_ImagesQrCode
 import com.example.ocrmlkitforfirebase.QRCode.HistoryScanAdapter
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.lang.Exception
 
-class TBT_HistoryScan_Helper {
+class TBM_ImagesQrCode_Helper {
 
     lateinit var ctx: Context
     lateinit var connectionClass: ConnectionClass
@@ -35,8 +34,7 @@ class TBT_HistoryScan_Helper {
             records.clear()
             recordCount = 0
             prog = ProgressDialog.show(ctx, "Reading Data. . . . ", " Loading.. Please Wait.", true)
-        }
-
+        } // onPreExecute
 
         override fun doInBackground(vararg params: String?): String {
             try {
@@ -50,19 +48,11 @@ class TBT_HistoryScan_Helper {
                         while (cursor!!.next()) {
                             try {
                                 when (functionType) {
-                                    "getHistoryScan" -> records?.add(
-                                        TBT_HistoryScan(
+                                    "getImagesQrCode" -> records?.add(
+                                        TBM_ImagesQrCode(
                                             cursor!!.getString("AccountUsername"),
                                             cursor!!.getString("LocationPath"),
-                                            cursor!!.getInt("TypeCheck"),
-                                            cursor!!.getString("Date")
-                                        )
-                                    )
-
-                                    "getLocationScan" -> records?.add(
-                                        TBM_Location(
-                                            cursor!!.getString("LocationPath"),
-                                            cursor!!.getString("LocationName"),
+                                            cursor!!.getString("Date"),
                                             cursor!!.getInt("IsActive")
                                         )
                                     )
@@ -91,57 +81,31 @@ class TBT_HistoryScan_Helper {
 
         override fun onPostExecute(result: String?) {
             prog.dismiss()
-
             if (isConnected == true) {
                 try {
-
-                    if (functionType == "getLocationScan") {
-                        if (recordCount != 0) {
-
-                        }
-                    } else {
-                        rv.adapter = adapter
-                    }
-
+                    rv.adapter = adapter
                 } catch (ex: Exception) {
 
                 }
             }
-        }
+        } // onPostExecute
     } // inner class SyncData
 
-    fun getHistoryScan(rv: RecyclerView) {
+    fun getImagesQrCode(rv: RecyclerView) {
         this.rv = rv
-        query = "SELECT * FROM TBT_HistoryScan ORDER BY Date DESC"
-        records = ArrayList<TBT_HistoryScan>() as ArrayList<Any>
-        adapter =
-            HistoryScanAdapter(records as ArrayList<TBT_HistoryScan>)
-        functionType = "getHistoryScan"
+        query = "SELECT * FROM TBM_ImagesQrCode ORDER BY Date DESC"
+        Log.d("LogQuery", query)
+        records = ArrayList<TBM_ImagesQrCode>() as ArrayList<Any>
+        adapter = HistoryScanAdapter(records as ArrayList<TBM_ImagesQrCode>)
+        functionType = "getImagesQrCode"
         SyncData().execute("")
     }
 
-    fun getLocationScan(path: String) {
-        Log.d("recordCount", "getLocationScan" + path)
-        query = "SELECT * FROM TBM_Location WHERE LocationPath = '$path'"
-        records = ArrayList<TBM_Location>() as ArrayList<Any>
-        functionType = "getLocationScan"
-        SyncData().execute("")
-    }
-
-    fun insertLocationScan(path: String, title : String) {
-        query = "INSERT INTO TBT_HistoryScan " +
-                "(AccountUsername" +
-                ",LocationPath" +
-                ",TypeCheck" +
-                ",Date) " +
-                "VALUES" +
-                "('$title'" +
-                ",'$path'" +
-                " ,1" +
-                ",GETDATE())"
-        Log.d("query", query)
-
-        records = ArrayList<TBM_Location>() as ArrayList<Any>
+    fun insertImagesQrCode(path: String, title : String) {
+        query = "INSERT INTO TBM_ImagesQrCode (AccountUsername, LocationPath, TypeCheck, Date) " +
+                "VALUES ('$title', '$path', 1, GETDATE())"
+        Log.d("LogQuery", query)
+        records = ArrayList<TBM_ImagesQrCode>() as ArrayList<Any>
         functionType = ""
         SyncData().execute("")
     }

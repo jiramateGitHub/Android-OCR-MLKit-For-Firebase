@@ -85,8 +85,8 @@ class CameraScan : AppCompatActivity() , ZXingScannerView.ResultHandler, View.On
         text_view_qr_code_value.text = rawResult?.text
         button_reset.visibility = View.VISIBLE
 
-        ConnectionClass.thsh.ctx = this
-        ConnectionClass.thsh.insertLocationScan(rawResult?.text.toString(),"Test User")
+        ConnectionClass.db_img_qr.ctx = this
+        ConnectionClass.db_img_qr.insertImagesQrCode(rawResult?.text.toString(),"Test User")
     }
 
     override fun onClick(view: View?) {

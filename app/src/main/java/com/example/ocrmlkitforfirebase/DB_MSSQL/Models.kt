@@ -6,21 +6,25 @@ class TBM_Account(
     val IsActive : Int,
     val LastLogin : String
 )
+
 class TBT_Image(
     val ImagePath : Int,
     val ImageTitle : String,
     val ImageDetail : String,
     val IsActive : Int,
-    val DataUpload : String
+    val Data : String
 )
-class TBM_Location(
-    val LocationPath : String,
-    val LocationName : String,
+
+class TBM_ImagesOcr(
+    val Title : String,
+    val Text : String,
+    val Date : String,
     val IsActive : Int
 )
-class TBT_HistoryScan(
+
+class TBM_ImagesQrCode(
     val AccountUsername : String,
     val LocationPath : String,
-    val TypeCheck : Int,
-    val Date : String
+    val Date : String,
+    val IsActive : Int
 )
