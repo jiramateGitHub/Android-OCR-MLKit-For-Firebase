@@ -2,7 +2,6 @@ package com.example.ocrmlkitforfirebase.Ocr
 
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,9 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
-import com.example.ocrmlkitforfirebase.LibraryFragment
 import com.example.ocrmlkitforfirebase.MainActivity
 import com.example.ocrmlkitforfirebase.R
 

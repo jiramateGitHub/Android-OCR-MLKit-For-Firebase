@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="32dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="28dp"
+        android:text="Recently" />
+
+    <FrameLayout
+        android:id="@+id/b1"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:gravity="center">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff6f00"
+        android:padding="32dp"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:id="@+id/btn_qrcode"
+        android:text="Scan QR Code"
+        android:layout_alignParentBottom="true"/>
+
+
+
+</RelativeLayout>

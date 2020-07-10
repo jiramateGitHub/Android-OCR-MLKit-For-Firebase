@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="32dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00897b"
+    android:padding="32dp"
+    android:layout_marginBottom="30dp"
+    android:id="@+id/btnTxtRc"
+    android:textSize="20sp"
+    android:textColor="#ffffff"
+    android:gravity="center"
+    android:text="Text Recognition"/>
+
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#5677fc"
+    android:padding="32dp"
+    android:id="@+id/btnSQRc"
+    android:layout_below="@id/btnTxtRc"
+    android:textSize="20sp"
+    android:textColor="#ffffff"
+    android:gravity="center"
+    android:text="Scan QR Code"/>
+
+
+
+
+</RelativeLayout>

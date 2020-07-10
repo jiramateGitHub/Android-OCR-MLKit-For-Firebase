@@ -6,8 +6,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import com.example.ocrmlkitforfirebase.DB_MSSQL.ConnectionClass
 import com.example.ocrmlkitforfirebase.MainActivity
+import com.example.ocrmlkitforfirebase.Ocr.LibraryFragment
 import com.google.zxing.Result
 import com.example.ocrmlkitforfirebase.R
 import kotlinx.android.synthetic.main.activity_camera_scan.*
@@ -24,9 +27,7 @@ class CameraScan : AppCompatActivity() , ZXingScannerView.ResultHandler, View.On
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        var action = supportActionBar
-        action!!.title = "Scan QR Code"
+        supportActionBar?.title = "Scan QR Code"
 
         initScannerView()
         initDefaultView()
@@ -83,6 +84,9 @@ class CameraScan : AppCompatActivity() , ZXingScannerView.ResultHandler, View.On
     override fun handleResult(rawResult: Result?) {
         text_view_qr_code_value.text = rawResult?.text
         button_reset.visibility = View.VISIBLE
+
+        ConnectionClass.thsh.ctx = this
+        ConnectionClass.thsh.insertLocationScan(rawResult?.text.toString(),"Test User")
     }
 
     override fun onClick(view: View?) {

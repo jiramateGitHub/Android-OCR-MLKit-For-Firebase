@@ -1,4 +1,4 @@
-package com.example.ocrmlkitforfirebase
+package com.example.ocrmlkitforfirebase.Ocr
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.ocrmlkitforfirebase.Ocr.ImageDetailFragment
+import com.example.ocrmlkitforfirebase.R
 import org.json.JSONArray
 
 class LibraryAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONArray) : RecyclerView.Adapter<LibraryAdapter.Holder>() {
@@ -33,7 +33,13 @@ class LibraryAdapter (fragmentActivity: FragmentActivity, val dataSource: JSONAr
     }
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.recy_list_image, parent, false))
+        return Holder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.recy_list_image,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
